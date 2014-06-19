@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/jms 
+	http://www.springframework.org/schema/jms/spring-jms-3.1.xsd
+	http://www.springframework.org/schema/data/jpa
+	http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-3.1.xsd
+	http://activemq.apache.org/schema/core 
+	http://activemq.apache.org/schema/core/activemq-core.xsd">
+		
+	<context:component-scan base-package="com.heimdal"/>
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+	
+	<jpa:repositories base-package="com.heimdal.config.store.service.data.heimdal.repository" />
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:dataSource-ref="mysqlDataSourceBean" p:packagesToScan="com.heimdal.config.store.service.data.heimdal.entity"
+		p:jpaVendorAdapter-ref="hibernateVendor" p:jpaPropertyMap-ref="jpaPropertyMap" />
+
+	<util:map id="jpaPropertyMap">
+		<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+		<entry key="hibernate.show_sql" value = "true" />
+	</util:map>
+	
+	<bean id="hibernateVendor"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+		p:showSql="false" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:entityManagerFactory-ref="entityManagerFactory" />
+
+	<bean id="mysqlDataSourceBean" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/heimdal" />
+		<property name="user" value="rincexwind" />
+		<property name="password" value="2bon2btitq" />
+		<property name="minPoolSize" value="2" />
+		<property name="maxPoolSize" value="40" />
+		<property name="acquireIncrement" value="2" />
+		<property name="maxIdleTime" value="60" />
+		<property name="idleConnectionTestPeriod" value="1" />
+		<property name="testConnectionOnCheckout" value="false" />
+		<property name="testConnectionOnCheckin" value="false" />
+		<property name="preferredTestQuery" value="SELECT 1 FROM dual" />
+	</bean>
+	
+	<bean id="projectVersion" class="java.lang.String">
+		<constructor-arg index="0" value="1.0.1-SNAPSHOT" />
+	</bean>
+		
+</beans>

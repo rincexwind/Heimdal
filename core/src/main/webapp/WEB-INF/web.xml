@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+    
+    <display-name>Heimdal</display-name>
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext.xml
+            classpath:configStoreRestApplicationContext.xml
+        </param-value>
+    </context-param>
+    
+    <listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<load-on-startup>1</load-on-startup>
+
+	<servlet>
+		<servlet-name>jersey</servlet-name>
+  		<servlet-class>
+    		com.sun.jersey.spi.spring.container.servlet.SpringServlet
+  		</servlet-class>
+  		<init-param>
+      		<param-name>
+        		com.sun.jersey.config.property.packages
+      		</param-name>
+      		<param-value>
+       			com.bn.nest.account.service.base.config
+      		</param-value>
+  		</init-param>
+  		<init-param>
+      		<param-name>
+        		com.sun.jersey.api.json.POJOMappingFeature
+      		</param-name>
+      		<param-value>true</param-value>
+  		</init-param>
+  		<init-param>
+			<param-name>com.sun.jersey.api.json.JSONMarshaller.formatted</param-name>
+			<param-value>true</param-value>
+		</init-param>
+ 	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+    
+    <servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value> /WEB-INF/applicationContext.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+    <servlet-mapping>
+        <servlet-name>jersey</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>	
+	
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/views/*</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

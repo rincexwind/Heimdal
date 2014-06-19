@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>jQuery Hello World</title>
+
+<script type="text/javascript" src="/views/js/jquery-1.11.1.js"></script>
+<link rel="stylesheet" type="text/css" href="/views/css/first.css" />
+
+</head>
+
+<body>
+
+	<script type="text/javascript">
+ 
+$(document).ready(function(){
+ 
+	
+	$.ajax({ 
+	    type: 'GET', 
+	    url: '/dashboard/version', 
+	    dataType: 'text',
+	    success: function (data) { 
+	    	$("#msgid").html(data);
+	    }
+	});
+	
+	
+	
+});
+ 
+</script>
+
+	This version of NEST is: <span id="msgid" />
+
+</body>
+</html>
