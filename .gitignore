@@ -1,9 +1,7 @@
 # gitignore
-
 *.iws
 **/.gitignore
 !/.gitignore
-
 *Db.properties
 *Db.script
 .settings
